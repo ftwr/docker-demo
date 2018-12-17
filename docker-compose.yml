@@ -1,0 +1,54 @@
+version: '2'
+
+services:
+  web:
+    build: ./app
+    restart: always
+    #ports:
+    #  - "3030:3000"
+    links:
+      - db
+
+
+
+
+  db:
+    image: mariadb:10
+    restart: always
+    container_name: mariadb
+    volumes:
+      - ./conf/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./conf/mariadb/my.cnf:/etc/mysql/conf.d/settings.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=positive
+      - MYSQL_DATABASE=nodeapp
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=app
+    ports:
+      - "3306:3306"
+
+  monapp:
+     build: ./monapp/easy-node-authentication
+     restart: always
+     ports:
+      - "8080:8080"
+     depends_on:
+      - mongo
+
+
+  mongo:
+     image: mongo
+     restart: always
+     container_name: mongodb
+     ports:
+      - "27017:27017"
+
+
+  gatsby:
+     build: ./gatsby
+     image: gatsby-docker:latest
+     ports:
+      - "8000:8000"
+     volumes:
+      - ./gatsby:/project
+     tty: true
