@@ -11,7 +11,7 @@ docker-compose up --build
 
 #one_shot_killer: 
 ```shell
-docker stop $(docker ps -aq); docker rm $(docker ps -a -q); docker rmi $(docker images -q)
+docker stop $(docker ps -aq); docker rm -f $(docker ps -a -q); docker rmi -f $(docker images -q)
 ```
 
 #docker stop if runned, skip if not
