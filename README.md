@@ -20,5 +20,6 @@ docker stop nodejs-api-wrapper || true && docker rm nodejs-api-wrapper || true
 ```
 #inspect network
 ```
+docker network ls
 docker network inspect bridge
 ```
